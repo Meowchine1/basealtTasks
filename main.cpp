@@ -121,6 +121,19 @@ int main(int argc, char *argv[])
         std::cout<< elem<<"\t";
     }
 
+
+    std::map<float, int> nums_counter;
+    int *float_start = array_f;
+    int *float_end = array_f + size;
+    while(float_start < float_end)
+    {
+        if (nums_counter.count(*float_start)){
+
+        }
+      float_start++;
+    }
+
+
     /*
 Выбрать в 2 мерном массиве все числа которые делятся на 3 и потом из них те которые делятся на 7.
 Найти все не уникальные элементы в массиве вещественных чисел.
