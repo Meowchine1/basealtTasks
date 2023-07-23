@@ -3,88 +3,109 @@
 #include <ctime>
 #include <iostream>
 #include <algorithm>
+#include <vector>
 
     RandomArrayGeneration::RandomArrayGeneration(unsigned int size)
     {
         this->size = size;
     }
 
-    RandomArrayGeneration::~RandomArrayGeneration(){}
-
-    void RandomArrayGeneration::print_1d(int *array)
-    {
-        for(unsigned i = 0; i < size; i++)
+    RandomArrayGeneration::~RandomArrayGeneration(){
+        for (auto vector : intVectorCollection)
         {
-            std::cout << array[i] << "\t";
+            vector.~vector();
         }
+        intVectorCollection.~vector();
 
-        return;
-    }
-
-    void RandomArrayGeneration::print_float_1d(float *array)
-    {
-        for(unsigned i = 0; i < size; i++)
+        for (auto vector : floatVectorCollection)
         {
-            std::cout << array[i] << "\t";
+            vector.~vector();
         }
+        floatVectorCollection.~vector();
 
-        return;
-    }
-    void RandomArrayGeneration::print_2d(int **array)
-    {
-
-        for (unsigned i = 0; i < size; i++)
+        for (auto vector : twoDimensionalArrayCollection)
         {
-            for (unsigned j = 0; j < size; j++)
+            for (auto rows : vector)
             {
-                 std::cout << array[i][j] << "\t";
+                rows.~vector();
             }
-             std::cout << std::endl;
+            vector.~vector();
         }
-
-        return;
+        twoDimensionalArrayCollection.~vector();
     }
 
-    int* RandomArrayGeneration::gen()
-    {
-        int *array = new int[size];
-        auto t = time(nullptr);
-        std::srand(t); // use current time as seed for random generator
-
-        for(unsigned int i = 0; i < size; i++)
-        {
-            array[i] = std::rand();
-        }
-
-        return array;
-    }
-
-    int** RandomArrayGeneration::gen_2d()
-    {
-       std::srand(std::time(nullptr));
-       unsigned int size = 10;
-       int** array = new int*[size];
-
-       for(unsigned i = 0; i < size; ++i) {
-             array[i] = new int[size];
-             for(unsigned j = 0; j < size; ++j) {
-                array[i][j] = std::rand();
-                }
-            }
-
-            return array;
-        }
-
-
-    float* RandomArrayGeneration::gen_sort_float()
+    std::vector<int> RandomArrayGeneration::getRandomInt()
     {
         std::srand(std::time(nullptr));
-        float *array = new float[size];
-        float coef = 0.3;
+        std::vector<int> array;
+
         for(unsigned int i = 0; i < size; i++)
         {
-            array[i] = std::rand() - coef;
+            array.push_back(std::rand() % divider);
         }
-        std::sort(array, array + size, std::greater<float>());
+        intVectorCollection.push_back(array);
         return array;
+    }
+
+    std::vector<std::vector<int>> RandomArrayGeneration::getRandomTwoDimensionalIntArray()
+    {
+       std::srand(std::time(nullptr));
+       std::vector<std::vector<int>> array(size, std::vector<int>(size));
+
+       for (std::vector<int>& row : array)
+         {
+          for(int i = 0; i < size; i++)
+          {
+              row[i] = std::rand() % divider; // Заполнение значениями
+          }
+
+         }
+
+       twoDimensionalArrayCollection.push_back(array);
+       return array;
+    }
+
+     std::vector<float> RandomArrayGeneration::getRandomSortedFloat()
+    {
+        std::srand(std::time(nullptr));
+        std::vector<float> array;
+        for(unsigned int i = 0; i < size; i++)
+        {
+            array.push_back((float)(std::rand()  % divider - coef));
+        }
+        std::sort(array.begin(), array.end(), std::greater<float>());
+        floatVectorCollection.push_back(array);
+        return array;
+    }
+
+    void RandomArrayGeneration::print_1d(std::vector<int> array)
+    {
+        for(unsigned i = 0; i < size; i++)
+        {
+            std::cout << array.at(i) << "\t";
+        }
+
+        return;
+    }
+
+    void RandomArrayGeneration::print_float_1d(std::vector<float> array)
+    {
+        for(unsigned i = 0; i < size; i++)
+        {
+            std::cout << array.at(i) << "\t";
+        }
+
+        return;
+    }
+    void RandomArrayGeneration::print_2d(std::vector<std::vector<int>> array)
+    {
+        for(auto row : array)
+        {
+            for(auto column : row)
+            {
+                std::cout << column << "\t";
+            }
+            std::cout << std::endl;
+        }
+        return;
     }

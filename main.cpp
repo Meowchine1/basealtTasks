@@ -1,53 +1,74 @@
 #include <iostream>
+#include <map>
+#include <set>
 #include <randomArrayGeneration.h>
-#include <cstdlib>
-#include <ctime>
-#include <limits.h>
-#include <climits>
-int main(int argc, char *argv[])
-{
-    unsigned int size = 6;
-    RandomArrayGeneration generator(size);
 
-    int *array = generator.gen();
+int size = 6;
+RandomArrayGeneration generator(size);
+
+
+// минимум в 1d массиве целых циклом for
+void task1()
+{
+    std::vector<int> array = generator.getRandomInt();
     std::cout << "Одномерный массив" << std::endl;
     generator.print_1d(array);
 
-    int array_min = INT_MAX;
-    int *start = array;
-    int *end = array + size-1;
-    for (;start < end; start++)
+    int array_min = array[0];
+
+
+    for (int i = 1; i < size; i++)
     {
-        if (*start < array_min)
+        if(array_min > array[i])
         {
-            array_min = *start;
+            array_min = array[i];
         }
     }
+    std::cout << "\nМинимальное число в массиве целых чисел = " << array_min << "\n\n";
+}
 
-    std::cout << "\nМинимальное число в массиве целых чисел = " << array_min << "\n" <<std::endl;
 
-    start = array;
-    end = array + size-1;
-    int array_max = INT_MIN;
-    while (start < end)
+// максимум в 1d массиве целых циклом while
+void task2()
+{
+    std::vector<int> array = generator.getRandomInt();
+    std::cout << "Одномерный массив" << std::endl;
+    generator.print_1d(array);
+
+    int i = 1;
+    int array_max = array[0];
+    while (i < size)
     {
-        if (*start > array_max)
+        if (array[i] > array_max)
         {
-            array_max = *start;
+            array_max = array[i];
         }
-        start++;
+        i++;
     }
-    std::cout << "Максимальное число в массиве целых чисел = " << array_max << "\n" <<std::endl;
+    std::cout << "\nМаксимальное число в массиве целых чисел = " << array_max << "\n\n";
+}
 
+//максимум в отсорированном массиве вещественных
+void task3()
+{
+    std::cout <<"Массив вещественных чисел:\n";
+    std::vector<float> array_f = generator.getRandomSortedFloat();
+    generator.print_float_1d(array_f);
+    std::cout <<"\n"<< std::endl;
+    std::cout<<"Максимальное число в отсортированном массиве вещ. чисел = " << array_f.at(0) << std::endl;
 
+}
 
+// максимум в двумерном массиве целых
+void task4()
+{
     std::cout << "Двумерный массив:" << std::endl;
-    int **array_2d = generator.gen_2d();
+    std::vector<std::vector<int>> array_2d = generator.getRandomTwoDimensionalIntArray();
     generator.print_2d(array_2d);
-    int max_2d = INT_MIN;
-    for(int i=0; i < size; i++)
+    int max_2d = array_2d[0][0];
+    for(int i = 0; i < size; i++)
        {
-           for(int j=0; j < size; j++)
+           for(int j = 0; j < size; j++)
            {
                if(array_2d[i][j] > max_2d)
                {
@@ -57,85 +78,93 @@ int main(int argc, char *argv[])
        }
 
     std::cout << "Максимальное число в двумерном массиве целых чисел = " << max_2d << "\n" <<std::endl;
+}
 
 
-    float *array_f = generator.gen_sort_float();
-    generator.print_float_1d(array_f);
-    std::cout <<"\n"<< std::endl;
-    std::cout<<"Максимальное число в отсортированном массиве вещ. чисел = "<<array_f[size-1]<<std::endl;
+// выбраь из 2d массива целых чисел те, которые делятся на 3,
+// а затем из выбранных те, что делятся еще и на 7.
+void task5()
+{
+    std::cout << "Двумерный массив:\n";
+    std::vector<std::vector<int>> array_2d = generator.getRandomTwoDimensionalIntArray();
+    generator.print_2d(array_2d);
 
-
-    int divide_3 = 0;
-    int divide_3_7 = 0;
-
+    std::set<int> numSet;
+    std::cout << "Делятся на 3 и на 7:\n";
     for(int i=0; i < size; i++)
        {
            for(int j=0; j < size; j++)
            {
-               if(array_2d[i][j] % 3 == 0)
+               if(numSet.count(array_2d[i][j]) == 0 && array_2d[i][j] != 0
+                       && array_2d[i][j] % 3 == 0 && array_2d[i][j] % 7 == 0)
                {
-                   divide_3++;
-                  if(array_2d[i][j] % 7 == 0)
-                  {
-                    divide_3_7++;
-                  }
-
+                  std::cout << array_2d[i][j] << "\t";
+                  numSet.insert(array_2d[i][j]);
                }
            }
        }
-
-    int array_divide3[divide_3];
-    int array_divide3_7[divide_3_7];
-
-    int t = 0;
-    int s = 0;
-
-    for(int i=0; i < size; i++)
-       {
-           for(int j=0; j < size; j++)
-           {
-               if(array_2d[i][j] % 3 == 0)
-               {
-                   array_divide3[t] = array_2d[i][j];
-                   t++;
-                  if(array_2d[i][j] % 7 == 0)
-                  {
-                    array_divide3_7[s] = array_2d[i][j];
-                    s++;
-                  }
-
-               }
-           }
-       }
-
-      std::cout<< "Делятся на 3: "<<std::endl;
-    for(int elem : array_divide3)
-    {
-        std::cout<< elem<<"\t";
-    }
-
     std::cout<<std::endl;
-    std::cout<< "Делятся на 3 и 7: "<<std::endl;
-    for(int elem : array_divide3_7)
-    {
-        std::cout<< elem<<"\t";
-    }
+}
 
 
+// неуникальные элементы в массиве вещественных чисел
+void task6()
+{
+    std::vector<float> array_f = generator.getRandomSortedFloat();
+    generator.print_float_1d(array_f);
+
+    int i = 0;
     std::map<float, int> nums_counter;
-    int *float_start = array_f;
-    int *float_end = array_f + size;
-    while(float_start < float_end)
+    std::cout<<"\nнеуникальные элементы в массиве вещественных чисел \n";
+
+    while(i < size)
     {
-        if (nums_counter.count(*float_start)){
-
+        if (nums_counter.count(array_f[i]) > 0){
+            if (nums_counter[array_f[i]] == 1)
+            {
+                std::cout << array_f[i] << "\t";
+            }
+            nums_counter[array_f[i]]++;
         }
-      float_start++;
+        else
+        {
+            nums_counter[array_f[i]] = 1;
+        }
+      i++;
     }
+}
+void printLine()
+{
+    for(int i = 0; i < 70; i++)
+    {
+        std::cout<<"_";
+    }
+    std::cout<<std::endl;
+}
 
+int main(int argc, char *argv[])
+{
+    std::cout <<"Задание 1\n";
+    task1();
+    printLine();
+    std::cout <<"Задание 2\n";
+    task2();
+    printLine();
+    std::cout <<"Задание 3\n";
+    task3();
+    printLine();
+    std::cout <<"Задание 4\n";
+    task4();
+    printLine();
+    std::cout <<"Задание 5\n";
+    task5();
+    printLine();
+    std::cout <<"Задание 6\n";
+    task6();
+    std::cout<<std::endl;
+    printLine();
+    printLine();
 
-    /*
-Выбрать в 2 мерном массиве все числа которые делятся на 3 и потом из них те которые делятся на 7.
-Найти все не уникальные элементы в массиве вещественных чисел.
-*/
+    generator.~RandomArrayGeneration();
+
 }
