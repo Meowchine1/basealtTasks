@@ -11,27 +11,7 @@
     }
 
     RandomArrayGeneration::~RandomArrayGeneration(){
-        for (auto vector : intVectorCollection)
-        {
-            vector.~vector();
-        }
-        intVectorCollection.~vector();
-
-        for (auto vector : floatVectorCollection)
-        {
-            vector.~vector();
-        }
-        floatVectorCollection.~vector();
-
-        for (auto vector : twoDimensionalArrayCollection)
-        {
-            for (auto rows : vector)
-            {
-                rows.~vector();
-            }
-            vector.~vector();
-        }
-        twoDimensionalArrayCollection.~vector();
+        std::cout<<"delete\n";
     }
 
     std::vector<int> RandomArrayGeneration::getRandomInt()

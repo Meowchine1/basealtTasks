@@ -167,4 +167,7 @@ int main(int argc, char *argv[])
 
     generator.~RandomArrayGeneration();
 
+    printLine();
+    printLine();
+
 }
