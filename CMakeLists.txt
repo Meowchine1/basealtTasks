@@ -12,13 +12,14 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(HEADERS
-    randomArrayGeneration.h)
+    randomArrayGeneration.h graph.h tasks.h)
+set(MAIN tasks.cpp main.cpp randomArrayGeneration.cpp graph.cpp   )
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 
 add_executable(basealtTest
-  main.cpp randomArrayGeneration.cpp ${HEADERS}
+   ${MAIN} ${HEADERS}
 )
 target_link_libraries(basealtTest Qt${QT_VERSION_MAJOR}::Core)
 
