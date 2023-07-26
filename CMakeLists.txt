@@ -12,8 +12,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(HEADERS
-    randomArrayGeneration.h graph.h tasks.h squaregrid.h)
-set(MAIN tasks.cpp main.cpp randomArrayGeneration.cpp graph.cpp squaregrid.cpp)
+    randomArrayGeneration.h graph.h tasks.h)
+set(MAIN tasks.cpp main.cpp randomArrayGeneration.cpp graph.cpp   )
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
