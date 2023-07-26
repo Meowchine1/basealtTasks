@@ -2,11 +2,10 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-Graph::Graph()
-{
 
-}
-void Graph::readTxt(std::string filePath)
+
+
+template<class L> void Graph<L>::readTxt(std::string filePath)
 {
     std::string line;
     char separator = ' ';

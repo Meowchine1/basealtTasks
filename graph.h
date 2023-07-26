@@ -2,14 +2,16 @@
 #define GRAPH_H
 #include "string"
 #include "map"
-
+#include "vector"
+template<class L>
 class Graph
 {
-private:
-    std::map<char, std::map<char, char>> graphNodes;
 public:
-    Graph();
+    typedef L Location;
+    typedef typename std::vector<Location>::iterator iterator;
+    std::map<Location, std::vector<Location>> edges;
     void readTxt(std::string filePath);
+    inline const std::vector<Location>  neighbors(Location id);
 
 };
 

@@ -15,6 +15,7 @@ void printLine()
 
 int main(int argc, char *argv[])
 {
+
 //    std::cout <<"Задание 1\n";
 //    task1();
 //    printLine();
@@ -41,9 +42,17 @@ int main(int argc, char *argv[])
 //    printLine();
 //    printLine();
 
-    Graph graph;
-    std::string path = fs::current_path()
-            .append("../basealtTest/graph.txt");
-    graph.readTxt(path);
+//    Graph graph;
+//    std::string path = fs::current_path()
+//            .append("../basealtTest/graph.txt");
+//    graph.readTxt(path);
+
+    Graph<char> example_graph {{
+        {'A', {'B'}},
+        {'B', {'A', 'C', 'D'}},
+        {'C', {'A'}},
+        {'D', {'E', 'A'}},
+        {'E', {'B'}}
+      }};
 
 }
